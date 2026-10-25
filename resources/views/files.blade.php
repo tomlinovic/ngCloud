@@ -8,8 +8,9 @@
             + Upload file
         </button>
     </div>
+    
 
-    {{-- Flash poruke --}}
+    {{-- Flash messages --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -26,7 +27,7 @@
         </div>
     @endif
 
-    {{-- Statistika kvote --}}
+    {{-- Storage quota --}}
     <div class="card mb-4">
         <div class="card-body">
             @php
@@ -52,13 +53,13 @@
         </div>
     </div>
 
-    {{-- Lista fileova --}}
+    {{-- File list --}}
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">My Files ({{ $files->total() }})</h5>
 
             @if ($files->isEmpty())
-                <p class="text-muted mb-0">Još nemaš uploadanih fileova.</p>
+                <p class="text-muted mb-0">You haven't uploaded any files yet.</p>
             @else
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
@@ -74,10 +75,14 @@
                             @foreach ($files as $file)
                                 <tr>
                                     <td>
-                                        <div class="text-truncate" style="max-width: 300px;">
-                                            {{ $file->original_name }}
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi {{ $file->icon['icon'] }} {{ $file->icon['color'] }} fs-4"></i>
+                                            <div>
+                                                <div class="text-truncate" style="max-width: 300px;">
+                                                    {{ $file->original_name }}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <small class="text-muted">{{ $file->mime_type }}</small>
                                     </td>
                                     <td>{{ $file->human_size }}</td>
                                     <td>{{ $file->created_at->format('d.m.Y H:i') }}</td>
@@ -89,7 +94,7 @@
                                         <form method="POST"
                                               action="{{ route('files.destroy', $file) }}"
                                               class="d-inline"
-                                              onsubmit="return confirm('Obrisati file?')">
+                                              onsubmit="return confirm('Delete this file?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger">
@@ -110,7 +115,7 @@
         </div>
     </div>
 
-    {{-- Modal za upload --}}
+    {{-- Upload modal --}}
     <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -122,10 +127,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="file" class="form-label">Odaberi file</label>
+                            <label for="file" class="form-label">Choose a file</label>
                             <input type="file" name="file" id="file" class="form-control" required>
                             <div class="form-text">
-                                Max 100 MB po fileu. Preostalo: {{ number_format($remaining / 1024 / 1024, 2) }} MB
+                                Max 100 MB per file. Remaining: {{ number_format($remaining / 1024 / 1024, 2) }} MB
                             </div>
                         </div>
                     </div>

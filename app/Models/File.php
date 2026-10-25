@@ -57,4 +57,41 @@ class File extends Model
     {
         return $this->mime_type === 'application/pdf';
     }
+
+    public function getIconAttribute(): array
+    {
+        $mime = $this->mime_type ?? '';
+        $ext = strtolower(pathinfo($this->original_name, PATHINFO_EXTENSION));
+
+        return match (true) {
+            str_starts_with($mime, 'image/') => ['icon' => 'bi-file-earmark-image', 'color' => 'text-success'],
+
+            $mime === 'application/pdf' => ['icon' => 'bi-file-earmark-pdf', 'color' => 'text-danger'],
+
+            str_contains($mime, 'word') || in_array($ext, ['doc', 'docx']) =>
+                ['icon' => 'bi-file-earmark-word', 'color' => 'text-primary'],
+
+            str_contains($mime, 'excel') || str_contains($mime, 'spreadsheet') || in_array($ext, ['xls', 'xlsx', 'csv']) =>
+                ['icon' => 'bi-file-earmark-excel', 'color' => 'text-success'],
+
+            str_contains($mime, 'powerpoint') || str_contains($mime, 'presentation') || in_array($ext, ['ppt', 'pptx']) =>
+                ['icon' => 'bi-file-earmark-ppt', 'color' => 'text-warning'],
+
+            in_array($mime, ['application/zip', 'application/x-rar-compressed', 'application/x-7z-compressed'])
+                || in_array($ext, ['zip', 'rar', '7z', 'tar', 'gz']) =>
+                ['icon' => 'bi-file-earmark-zip', 'color' => 'text-warning'],
+
+            str_starts_with($mime, 'video/') => ['icon' => 'bi-file-earmark-play', 'color' => 'text-danger'],
+
+            str_starts_with($mime, 'audio/') => ['icon' => 'bi-file-earmark-music', 'color' => 'text-info'],
+
+            str_starts_with($mime, 'text/') || in_array($ext, ['txt', 'md', 'log']) =>
+                ['icon' => 'bi-file-earmark-text', 'color' => 'text-secondary'],
+
+            in_array($ext, ['php', 'js', 'ts', 'css', 'html', 'json', 'xml', 'py', 'java', 'c', 'cpp']) =>
+                ['icon' => 'bi-file-earmark-code', 'color' => 'text-dark'],
+
+            default => ['icon' => 'bi-file-earmark', 'color' => 'text-secondary'],
+        };
+    }
 }
