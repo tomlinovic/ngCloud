@@ -23,14 +23,9 @@
             
             <div class="d-flex align-items-center gap-3">
 
-                <a href="/"
+                <a href="/files"
                 class="text-decoration-none text-dark fw-semibold">
-                    Homepage
-                </a>
-
-                <a href="/services"
-                class="text-decoration-none text-dark fw-semibold">
-                    Services
+                    Files
                 </a>
 
             </div>

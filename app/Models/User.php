@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\File;
 
 class User extends Authenticatable
 {
@@ -43,5 +44,30 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_super_user' => 'boolean',
         ];
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class);
+    }
+
+    public function storageUsed(): int
+    {
+        return (int) $this->files()->sum('size');
+    }
+
+    public function storageQuota(): int
+    {
+        return 3 * 1024 * 1024 * 1024; // 3 GB
+    }
+
+    public function storageRemaining(): int
+    {
+        return max(0, $this->storageQuota() - $this->storageUsed());
+    }
+
+    public function hasSpaceFor(int $bytes): bool
+    {
+        return ($this->storageUsed() + $bytes) <= $this->storageQuota();
     }
 }
