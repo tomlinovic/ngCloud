@@ -2,8 +2,12 @@
 
     <div class="card">
         <div class="card-body">
-            <h1>Welcome to ngCloud</h1>
-            <p>Laravel 11 web application.</p>
+            @if ($username)
+                <h1>Welcome, {{ $username }}!</h1>
+            @else
+                <h1>Welcome!</h1>
+                <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+            @endif
         </div>
     </div>
 

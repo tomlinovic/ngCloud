@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'ngCloud' }}</title>
+    <title>ngCloud</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -35,10 +35,23 @@
 
             </div>
 
-            <div class="ms-auto">
-                <a href="/login" class="btn btn-primary">
-                    Login
-                </a>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                @auth
+                    <span class="text-dark fw-semibold">
+                        {{ ucfirst(auth()->user()->username) }}
+                    </span>
+
+                    <form method="POST" action="{{ route('logout') }}" class="m-0">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger">
+                            Logout
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-primary">
+                        Login
+                    </a>
+                @endauth
             </div>
 
         </div>
