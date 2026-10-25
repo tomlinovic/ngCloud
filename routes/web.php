@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\FileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,9 +16,10 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('/files', function () {
-        return view('files');
-    })->name('files');
+    Route::get('/files', [FileController::class, 'index'])->name('files.index');
+    Route::post('/files', [FileController::class, 'store'])->name('files.store');
+    Route::get('/files/{file}/download', [FileController::class, 'download'])->name('files.download');
+    Route::delete('/files/{file}', [FileController::class, 'destroy'])->name('files.destroy');
 
     Route::middleware('superuser')->get('/admin', function () {
         return view('admin');
