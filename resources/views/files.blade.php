@@ -56,6 +56,9 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                @if(auth()->user()->is_super_user)
+                                    <th>Added By</th>
+                                @endif
                                 <th>Size</th>
                                 <th>Uploaded</th>
                                 <th class="text-end">Actions</th>
@@ -74,6 +77,16 @@
                                             </div>
                                         </div>
                                     </td>
+                                    
+                                    {{-- NOVI STUPAC: Prikazuje se samo adminu --}}
+                                    @if(auth()->user()->is_super_user)
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                {{ $file->user->username ?? 'Unknown' }}
+                                            </span>
+                                        </td>
+                                    @endif
+                                    
                                     <td>{{ $file->human_size }}</td>
                                     <td>{{ $file->created_at->format('d.m.Y H:i') }}</td>
                                     <td class="text-end">

@@ -11,10 +11,17 @@ class FileController extends Controller
     {
         $user = auth()->user();
 
-        $files = $user->files()
-            ->select(['id', 'user_id', 'original_name', 'mime_type', 'size', 'created_at'])
-            ->orderByDesc('created_at')
-            ->paginate(5);
+        if ($user->is_super_user) {
+            $query = File::with('user')
+                ->select(['id', 'user_id', 'original_name', 'mime_type', 'size', 'created_at'])
+                ->orderByDesc('created_at');
+        } else {
+            $query = $user->files()
+                ->select(['id', 'user_id', 'original_name', 'mime_type', 'size', 'created_at'])
+                ->orderByDesc('created_at');
+        }
+
+        $files = $query->paginate(5);
 
         return view('files', [
             'files' => $files,

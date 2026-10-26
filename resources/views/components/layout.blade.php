@@ -29,6 +29,15 @@
                     Files
                 </a>
 
+                @auth
+                    @if (auth()->user()->is_super_user)
+                        <a href="/admin"
+                        class="text-decoration-none text-danger fw-semibold">
+                            Admin
+                        </a>
+                    @endif
+                @endauth
+
             </div>
 
             <div class="ms-auto d-flex align-items-center gap-3">
