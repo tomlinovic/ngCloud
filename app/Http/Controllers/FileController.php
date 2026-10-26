@@ -14,7 +14,7 @@ class FileController extends Controller
         $files = $user->files()
             ->select(['id', 'user_id', 'original_name', 'mime_type', 'size', 'created_at'])
             ->orderByDesc('created_at')
-            ->paginate(20);
+            ->paginate(5);
 
         return view('files', [
             'files' => $files,

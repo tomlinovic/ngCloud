@@ -30,22 +30,12 @@
     {{-- Storage quota --}}
     <div class="card mb-4">
         <div class="card-body">
-            @php
-                $percent = $quota > 0 ? min(100, round($used / $quota * 100, 2)) : 0;
-            @endphp
             <div class="d-flex justify-content-between mb-2">
                 <strong>Storage</strong>
                 <span class="text-muted">
                     {{ number_format($used / 1024 / 1024, 2) }} MB /
                     {{ number_format($quota / 1024 / 1024 / 1024, 2) }} GB
                 </span>
-            </div>
-            <div class="progress" style="height: 20px;">
-                <div class="progress-bar {{ $percent > 90 ? 'bg-danger' : ($percent > 70 ? 'bg-warning' : 'bg-success') }}"
-                     role="progressbar"
-                     style="width: {{ $percent }}%">
-                    {{ $percent }}%
-                </div>
             </div>
             <div class="small text-muted mt-2">
                 Remaining: {{ number_format($remaining / 1024 / 1024, 2) }} MB
@@ -128,7 +118,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="file" class="form-label">Choose a file</label>
-                            <input type="file" name="file" id="file" class="form-control" required>
+                            <input type="file" name="file" id="file" class="form-control" required max="{{ $remaining }}">
                             <div class="form-text">
                                 Max 100 MB per file. Remaining: {{ number_format($remaining / 1024 / 1024, 2) }} MB
                             </div>

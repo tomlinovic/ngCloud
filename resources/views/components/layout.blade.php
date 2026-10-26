@@ -33,9 +33,11 @@
 
             <div class="ms-auto d-flex align-items-center gap-3">
                 @auth
+                <a href="/profile">
                     <span class="text-dark fw-semibold">
                         {{ ucfirst(auth()->user()->username) }}
                     </span>
+                </a>
 
                     <form method="POST" action="{{ route('logout') }}" class="m-0">
                         @csrf
