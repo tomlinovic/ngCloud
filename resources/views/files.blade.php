@@ -1,7 +1,7 @@
 <x-layout>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="mb-1">Your files</h2>
+            <h2 class="mb-1">Files</h2>
             <div class="text-muted">Upload and download your files</div>
         </div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
@@ -9,8 +9,6 @@
         </button>
     </div>
     
-
-    {{-- Flash messages --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -27,26 +25,9 @@
         </div>
     @endif
 
-    {{-- Storage quota --}}
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="d-flex justify-content-between mb-2">
-                <strong>Storage</strong>
-                <span class="text-muted">
-                    {{ number_format($used / 1024 / 1024, 2) }} MB /
-                    {{ number_format($quota / 1024 / 1024 / 1024, 2) }} GB
-                </span>
-            </div>
-            <div class="small text-muted mt-2">
-                Remaining: {{ number_format($remaining / 1024 / 1024, 2) }} MB
-            </div>
-        </div>
-    </div>
-
-    {{-- File list --}}
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">My Files ({{ $files->total() }})</h5>
+            <h5 class="card-title">Files ({{ $files->total() }})</h5>
 
             @if ($files->isEmpty())
                 <p class="text-muted mb-0">You haven't uploaded any files yet.</p>
@@ -78,7 +59,7 @@
                                         </div>
                                     </td>
                                     
-                                    {{-- NOVI STUPAC: Prikazuje se samo adminu --}}
+                                    
                                     @if(auth()->user()->is_super_user)
                                         <td>
                                             <span class="badge bg-secondary">

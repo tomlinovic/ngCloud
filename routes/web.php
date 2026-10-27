@@ -18,7 +18,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/profile', function () {
-    return view('auth.profile');
+        $user = auth()->user();
+        $used      = $user->files()->sum('size');       
+        $quota     = $user->storageQuota();                      
+        $remaining = max(0, $quota - $used);
+    return view('auth.profile', compact('used', 'quota', 'remaining'));
     })->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 

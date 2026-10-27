@@ -23,6 +23,23 @@
                         </div>
                     @endif
 
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <strong>Storage</strong>
+                                <span class="text-muted">
+                                    {{ number_format($used / 1024 / 1024, 2) }} MB /
+                                    {{ number_format($quota / 1024 / 1024 / 1024, 2) }} GB
+                                </span>
+                            </div>
+                            <div class="small text-muted mt-2">
+                                Remaining: {{ number_format($remaining / 1024 / 1024, 2) }} MB
+                            </div>
+                        </div>
+                    </div>
+
+
                     <form method="POST" action="{{ route('profile.update') }}">
                         @csrf
                         @method('PUT')
