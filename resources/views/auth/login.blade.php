@@ -4,8 +4,6 @@
             <div class="card shadow-sm mt-5">
                 <div class="card-body p-4">
                     <h1 class="h4 text-center mb-4">Login</h1>
-
-                    {{-- Errors --}}
                     @if ($errors->any())
                         <div class="alert alert-danger" role="alert">
                             <ul class="mb-0 ps-3">
@@ -18,8 +16,6 @@
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
-                        {{-- Username --}}
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input
@@ -53,7 +49,6 @@
                             @enderror
                         </div>
 
-                        {{-- Remember me --}}
                         <div class="form-check mb-4">
                             <input
                                 type="checkbox"
@@ -66,7 +61,6 @@
                             <label for="remember" class="form-check-label">Remember me</label>
                         </div>
 
-                        {{-- Submit --}}
                         <button type="submit" class="btn btn-primary w-100">
                             Sign in
                         </button>

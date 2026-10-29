@@ -43,7 +43,7 @@ class FileController extends Controller
 
         if (! $user->hasSpaceFor($size)) {
             return back()->withErrors([
-                'file' => 'Nemaš dovoljno prostora. Preostalo: '
+                'file' => 'You dont have enough storage space left. Storage space left: '
                     . $this->formatBytes($user->storageRemaining()),
             ]);
         }
@@ -56,7 +56,7 @@ class FileController extends Controller
             'content' => file_get_contents($uploaded->getRealPath()),
         ]);
 
-        return back()->with('success', 'File uspješno uploadan.');
+        return back()->with('success', 'File successfully uploaded.');
     }
 
     public function download(File $file)
@@ -74,7 +74,7 @@ class FileController extends Controller
         $this->authorizeOwner($file);
         $file->delete();
 
-        return back()->with('success', 'File obrisan.');
+        return back()->with('success', 'File deleted.');
     }
 
     private function authorizeOwner(File $file): void
